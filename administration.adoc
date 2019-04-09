@@ -805,23 +805,24 @@ server instances, in an effort to increase storage capacity, decrease load or
 utilization on individual hosts, increase compute power, etc.
 
 By default, any newly added tablet servers will not be utilized immediately
-after their addition to the cluster - only when new tablets are created or
-existing tablets need to be replicated will the newly added tablet servers be
-targeted for replica placement, which can lead to imbalanced nodes.
+after their addition to the cluster. Instead, newly added tablet servers will
+only be utilized when new tablets are created or when existing tablets need to
+be replicated, which can lead to imbalanced nodes.
 
-When adding additional tablet servers to an already existing cluster, the
+To add additional tablet servers to an already existing cluster, the
 following steps can be taken to ensure tablets are uniformly distributed
 across the cluster:
 
 1. Ensure that Kudu is installed on the new machines being added to the
-cluster, and that the new instances have been correctly configured to point
-to the pre-existing cluster. Then, start up the new tablet server instances.
+cluster, and that the new instances have been 
+link:https://kudu.apache.org/docs/configuration.html#_configuring_tablet_servers[correctly configured]
+to point to the pre-existing cluster. Then, start up the new tablet server instances.
 2. Verify that the new instances check in with the Kudu Master(s)
 successfully. A quick method for veryifying they've successfully checked in
 with the existing Master instances is to view the Kudu Master WebUI,
 specifically the '/tablet-servers' section, and validate that the newly
 added instances are registered, and heartbeating.
-3. Once the tablet server(s) are successfully online and checked in, follow
+3. Once the tablet server(s) are successfully online and healthy, follow
 the steps to run the
 link:https://kudu.apache.org/docs/administration.html#rebalancer_tool[Kudu Rebalancer]
 which will spread already existing tablets to the newly added tablet server
